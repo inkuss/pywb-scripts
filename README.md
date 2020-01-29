@@ -6,6 +6,11 @@ scripts for managing content in pywb
 Autor: I. Kuss  
 Erstanlagedatum: 29.Januar 2020  
 
+# Einrichtung
+ssh wayback@wayback
+cd /opt/pywb
+git clone https://github.com/edoweb/pywb-scripts.git bin  
+
 # I. Lesesaal-Sammlung
 Neuaufbau der pywb-Sammlung "lesesaal"  
 ssh wayback@wayback  
