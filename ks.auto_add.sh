@@ -26,14 +26,14 @@ function update_collection {
   # Schleife über alle im Datenverzeichnis angelegten WARC-Dateien
   cd $dataverz
   for warcfile in $suchmuster ; do
-    echo "warcfile=$dataverz/$warcfile" >> $logfile
+    # echo "warcfile=$dataverz/$warcfile" >> $logfile
     warcbase=`basename $warcfile`
     # Gibt es schon einen gleichnamigen symbolischen Link im Archiv ?
     if [ -f $archive/$warcbase ]; then
-      echo "Archivfile existiert" >> $logfile
+      # echo "Archivfile existiert" >> $logfile
       # Ist das Archivfile neuer ?
       if test `find $archive/$warcbase -prune -newer $dataverz/$warcfile`; then
-        echo "Archivfile ist neuer. Nichts zu tun." >> $logfile
+        # echo "Archivfile ist neuer. Nichts zu tun." >> $logfile
         continue
       fi
       echo "Archivfile ist älter" >> $logfile
@@ -41,7 +41,7 @@ function update_collection {
       rm $archive/$warcbase
     fi
     # Archivfile exsitiert noch nicht oder ist älter
-    # echo "warcfile=$dataverz/$warcfile" >> $logfile
+    echo "warcfile=$dataverz/$warcfile" >> $logfile
     echo "Warcfile wird hinzugefügt." >> $logfile
     /opt/pywb/bin/ks.add_warc.sh $archivename $dataverz/$warcfile >> $logfile
   done
@@ -67,13 +67,13 @@ update_collection $data_basedir/cdn-data "edoweb_cdn:*/20*/*.warc.gz" lesesaal $
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" >> $logfile
 echo "START auto-indexing new cdn harvests in public collection" >> $logfile
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" >> $logfile
-update_collection $data_basedir/cdn-data "edoweb_cdn:*/20*/*.warc.gz" weltweit $archive_weltweit
+# update_collection $data_basedir/cdn-data "edoweb_cdn:*/20*/*.warc.gz" weltweit $archive_weltweit
 
 # 4. public-data
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" >> $logfile
 echo "START auto-indexing new public harvests (soft links)" >> $logfile
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" >> $logfile
-update_collection $data_basedir/public-data "edoweb:*/20*/*.warc.gz edoweb:*/20*/warcs/*.warc.gz" weltweit $archive_weltweit
+# update_collection $data_basedir/public-data "edoweb:*/20*/*.warc.gz edoweb:*/20*/warcs/*.warc.gz" weltweit $archive_weltweit
 
 echo "********************************************************************************" >> $logfile
 echo `date`
