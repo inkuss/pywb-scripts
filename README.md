@@ -4,6 +4,9 @@ scripts for managing content in pywb
 # Erstmaliges Hinzufügen von Webinhalten zu Python-Wayback Index & Archiv
 # Gesamtindexierung des vorhandenen Bestandes
 Autor: I. Kuss
+..Erstanlagedatum: 29.Januar 2020
+
+Erstanlagedatum: 29.Januar 2020..
 Erstanlagedatum: 29.Januar 2020
 
 # I. Lesesaal-Sammlung
