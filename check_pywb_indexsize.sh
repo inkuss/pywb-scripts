@@ -11,15 +11,29 @@
 # Aufruf in monit Konfiguration mit absoluten Pfaden
 # $ /opt/pywb/bin/check_pywb_indexsize.sh /opt/pywb/collections/weltweit/indexes/index.cdxj 10000
 
-index=$1
-limit=$2
 
-size=$(du -m "$index" | cut -f 1)
+while getopts i:m:l: option; do
+    case "${option}" in
+        i) INDEX=${OPTARG};;
+        m) MAXSIZE=${OPTARG};;
+        l) LOG=${OPTARG};;
+    esac
+done
 
-if [ $size -ge $limit ]; then
-    echo "$index: $size > $limit MB"
+
+LOGDIR="/opt/pywb/logs"
+logfile=$LOGDIR/$LOG
+
+echo $logfile
+
+size=$(du -m "$INDEX" | cut -f 1)
+time=`date +%F\ %T`
+echo $time, $size >> $logfile
+
+if [ $size -ge $MAXSIZE ]; then
+    echo "$INDEX: $size > $MAXSIZE MB"
     exit 1
 else
-    echo "$index: $size < $limit MB"
+    echo "$INDEX: $size < $MAXSIZE MB"
     exit 0
 fi

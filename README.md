@@ -1,8 +1,5 @@
 # pywb-scripts
 scripts for managing content in pywb
-
-# Erstmaliges Hinzufügen von Webinhalten zu Python-Wayback Index & Archiv
-# Gesamtindexierung des vorhandenen Bestandes
 Autor: I. Kuss  
 Erstanlagedatum: 29.Januar 2020  
 
@@ -11,8 +8,11 @@ ssh wayback@wayback
 cd /opt/pywb
 git clone https://github.com/edoweb/pywb-scripts.git bin  
 
+# i.) Erstmaliges Hinzufügen von Webinhalten zu Python-Wayback Index & Archiv
+#     Gesamtindexierung des vorhandenen Bestandes
+
 # I. Lesesaal-Sammlung
-Neuaufbau der pywb-Sammlung "lesesaal"  
+Neuaufbau der pywb-Sammlung "Lesesaal"  
 ssh wayback@wayback  
 Löschen der Sammlung "Lesesaal"  
 cd /opt/pywb/bin/  
@@ -21,18 +21,16 @@ Neuanlage der Sammlung "Lesesaal"
 cd /opt/pywb  
 /opt/pywb/Python3/bin/wb-manager init lesesaal  
 
-Aufteilung auf multiple Indizes:  
-In Sammlung "lesesaal"  
-1. Index   index.cdxj       wpull-data, cdn-data     Index ca. 3.9 GB groß  
+Aufteilung auf multiple Indizes in der Sammlung "lesesaal"  
+1. Index:   index.cdxj       enthält: wpull-data, cdn-data  
+   Neuerzeugung des Index:  
    ./ks.index_wpull-data.sh lesesaal  >> /opt/pywb/logs/ks.index_wpull-data.log  
-   In 12h 45m fertig geworden. 690 Archivdateien indexiert (OK).  Index ist 3.95 GB groß  
-2. Index   index_htrx.cdxj  heritrix-data            Index ca. 11 GB groß  
+2. Index:   index_htrx.cdxj  enthält: heritrix-data  
+   Neuerzeugung des Index:  
    ./ks.index_heritrix-data.sh lesesaal  >> /opt/pywb/logs/ks.index_heritrix-data.log  
-   4420 Archivdateien indexiert in 115 Stunden. Index ist 11,03 GB groß.  
-3. Index   index_wget.cdxj  wget-data                Index ca. 3.1 GB groß  
+3. Index:   index_wget.cdxj  enthält: wget-data  
+   Neuerzeugung des Index:  
    ./ks.index_wget-data.sh lesesaal  >> /opt/pywb/logs/ks.index_wget-data.log  
-   Fertig in 12 Std. 1467 Dateien indexiert. Index ist 3.1 GB groß.  
-
 
 # II. Weltweit-Sammlung
 Neuaufbau der pywb-Sammlung "Weltweit"  
@@ -43,12 +41,28 @@ cd /opt/pywb/bin/
 Neuanlage der Sammlung "Weltweit"  
 cd /opt/pywb  
 /opt/pywb/Python3/bin/wb-manager init weltweit  
-Ein Index  index.cdxj       public-data, cdn-data    Index wird ca. 7? GB groß  
+
+Ein Index:  index.cdxj       enthält: public-data, cdn-data  
     ACHTUNG !! Die Verzeichnisse  
     /opt/regal/wpull-data, /opt/regal/heritrix-data und /opt/regal/wget-data  
     müssen auf dem wayback-Server eingerichtet sein, jeweils als symbolische Verknüpfungen zu  
     /data2/wpull-data,     /data2/heritrix-data     bzw. /data2/wget-data  .  
+   Neuerzeugung des Index:  
    ./ks.index_public-data.sh weltweit  >> /opt/pywb/logs/ks.index_public-data.log  
-   Es sind 2479 Archivdateien in public-data/ zu indexieren und 142 Archive in cdn-data/ .  
-   29.01.: läuft noch. Bereits 3,8 GB indexiert. 1231 Archivdateien indexiert.  
+
+# ii.) Automatischer Update des Index und der Sammlung der Archivdateien für neu hinzugekommene oder aktualisierte Crawl-Vorgänge
+Achtung: Funktioniert nicht für gelöschte Crawl-Archive !  
+ks.auto_add.sh >> /opt/pywb/logs/ks.auto_add_cron.log  
+
+# iii.) Überwachung, dass die Indizes nicht zu groß werden
+# Monitoring der pywb Indexe
+
+Die Indexe der pywb sollen nicht größer als 10GB werden. Dieses Skipt wird von monit aufgerufen  
+und schickt eine Mail, sobald der Indexe die kritische Größe erreicht.  
+Das Skript erwartet die Angabe der maximalen Größe in MB.  
+
+Aufruf:  
+$ check_pywb_indexsize.sh <pywb-index> <maximale Größe>  
+Aufruf in monit Konfiguration mit absoluten Pfaden  
+$ /opt/pywb/bin/check_pywb_indexsize.sh /opt/pywb/collections/weltweit/indexes/index.cdxj 10000  
 
