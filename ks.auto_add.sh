@@ -67,13 +67,13 @@ update_collection $data_basedir/cdn-data "edoweb_cdn:*/20*/*.warc.gz" lesesaal $
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" >> $logfile
 echo "START auto-indexing new cdn harvests in public collection" >> $logfile
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" >> $logfile
-# update_collection $data_basedir/cdn-data "edoweb_cdn:*/20*/*.warc.gz" weltweit $archive_weltweit
+update_collection $data_basedir/cdn-data "edoweb_cdn:*/20*/*.warc.gz" weltweit $archive_weltweit
 
 # 4. public-data
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" >> $logfile
 echo "START auto-indexing new public harvests (soft links)" >> $logfile
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" >> $logfile
-# update_collection $data_basedir/public-data "edoweb:*/20*/*.warc.gz edoweb:*/20*/warcs/*.warc.gz" weltweit $archive_weltweit
+update_collection $data_basedir/public-data "edoweb:*/20*/*.warc.gz edoweb:*/20*/warcs/*.warc.gz" weltweit $archive_weltweit
 
 echo "********************************************************************************" >> $logfile
 echo `date`
